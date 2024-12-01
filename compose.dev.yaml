@@ -1,0 +1,10 @@
+name: dev-dockerfiles
+services:
+  dev-dockerfiles:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    image: dev-dockerfiles
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

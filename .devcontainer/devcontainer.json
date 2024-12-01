@@ -1,0 +1,33 @@
+{
+    "name": "dev-dockerfiles",
+    "dockerComposeFile": "../compose.dev.yaml",
+    "service": "dev-dockerfiles",
+    "workspaceFolder": "/app",
+    "mounts": [
+        {
+            "source": "./",
+            "target": "/app",
+            "type": "bind"
+        }
+    ],
+    "remoteUser": "user",
+    "containerUser": "user",
+    "overrideCommand": true,
+    "postAttachCommand": "sudo chown -R user:user .",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "GitHub.copilot",
+                "ms-azuretools.vscode-docker",
+                "ms-python.python"
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "python.pythonPath": "${containerEnv:PYTHON_PATH:-/usr/local/bin/python}"
+            }
+        }
+    },
+    "postStartCommand": {
+        "git config": "git config --global --add safe.directory ${containerWorkspaceFolder}"
+    }
+}

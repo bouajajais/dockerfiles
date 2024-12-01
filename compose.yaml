@@ -1,0 +1,14 @@
+name: dockerfiles
+services:
+  dockerfiles:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: prod
+    env_file:
+      - .user_guid.env
+    image: dockerfiles
+    volumes:
+      - ${DATA_PATH:-./data}:/app/data
+      - ${CONFIG_PATH:-./config}:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock
