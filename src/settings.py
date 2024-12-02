@@ -1,5 +1,8 @@
-CONFIG_FILEPATH = "/app/config/config.json"
-CONFIG_FILEPATH = "/home/isbou/work/projects/dockerfiles/config/config.json"
+import os
+
+ROOT_DIR = "/home/isbou/work/projects/dockerfiles"
+CONFIG_FILEPATH = os.path.join(ROOT_DIR, "config/config.json")
+LOGS_DIR = os.path.join(ROOT_DIR, "data/logs")
 
 DEFAULT_CONFIG = {
     "partial_args": {

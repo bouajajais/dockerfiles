@@ -1,6 +1,0 @@
-2024-12-02 07:41:50,525 - docker - INFO - cd dockerfiles/docker && docker build --build-arg DOCKER_TAG="27.3.1-cli" --target prod -t ismailbouajaja/docker:docker__27.3.1-cli . && docker push ismailbouajaja/docker:docker__27.3.1-cli
-2024-12-02 07:41:50,525 - docker - ERROR - ERROR occurred while building and pushing ismailbouajaja/docker:docker__27.3.1-cli
-2024-12-02 07:41:50,526 - docker - INFO - cd dockerfiles/docker && docker build --build-arg DOCKER_TAG="27.3.1-cli" --target dev -t ismailbouajaja/docker:docker__27.3.1-cli--dev . && docker push ismailbouajaja/docker:docker__27.3.1-cli--dev
-2024-12-02 07:41:50,526 - docker - INFO - cd dockerfiles/docker && docker build --build-arg DOCKER_TAG="27.3.1-cli" --target dev -t ismailbouajaja/docker:docker__27.3.1-cli--dev . && docker push ismailbouajaja/docker:docker__27.3.1-cli--dev
-2024-12-02 07:41:50,527 - docker - INFO - SUCCESS building and pushing ismailbouajaja/docker:docker__27.3.1-cli--dev
-2024-12-02 07:41:50,527 - docker - INFO - SUCCESS building and pushing ismailbouajaja/docker:docker__27.3.1-cli--dev

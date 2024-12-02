@@ -1,18 +1,18 @@
 import logging
 from importlib import import_module
 import os
-import random
 from config import get_config
+import settings
 from utilities import get_image_infos, parse_image_tag
 from dependencies import get_all_target_images
 
 # Set up logging
-os.makedirs('logs', exist_ok=True)
+os.makedirs(settings.LOGS_DIR, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("logs/logs.txt"),
+        logging.FileHandler(os.path.join(settings.LOGS_DIR, "logs.txt")),
         logging.StreamHandler()
     ]
 )
@@ -53,7 +53,7 @@ def build_and_push(target_image: str) -> None:
     image_basename = image_infos["image_basename"]
     target = parse_image_tag(image_infos["image_tag"])["target"]
     logger = logging.getLogger(image_basename)
-    file_handler = logging.FileHandler(f"logs/{image_basename.replace('-', '_')}_logs.txt")
+    file_handler = logging.FileHandler(os.path.join(settings.LOGS_DIR, f"{image_basename.replace('-', '_')}_logs.txt"))
     file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
     logger.addHandler(file_handler)
 
