@@ -30,11 +30,13 @@ RUN PYTHON_PATH=$(poetry env info --executable) \
     && echo "PYTHON_PATH=${PYTHON_PATH}" >> /home/user/.python_path
 USER root
 RUN cat /home/user/.python_path >> /etc/environment
-USER user
 
 #################### PROD IMAGE ####################
 
 FROM ismailbouajaja/docker-poetry:docker__${DOCKER_TAG}--poetry__${POETRY_VERSION}--python__${PYTHON_VERSION} AS prod
+
+# Switch to user
+USER user
 
 # Change the working directory to /app/src
 WORKDIR /app/src
@@ -53,6 +55,8 @@ COPY --chown=user:user ./ ./
 
 # Change the working directory to /app
 WORKDIR /app/src
+
+USER root
 
 # Set the default command for the container
 CMD ["poetry", "run", "python", "main.py"]

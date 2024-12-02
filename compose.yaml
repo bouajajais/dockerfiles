@@ -8,6 +8,8 @@ services:
     env_file:
       - .user_guid.env
     image: dockerfiles
+    stdin_open: true # Keeps stdin open for the service
+    tty: true # Allocates a pseudo-TTY
     volumes:
       - ${DATA_PATH:-./data}:/app/data
       - ${CONFIG_PATH:-./config}:/app/config
