@@ -1,22 +1,65 @@
 CONFIG_FILEPATH = "/app/config/config.json"
-DOCKERFILES_FOLDER = "/app/src/dockerfiles"
+CONFIG_FILEPATH = "/home/isbou/work/projects/dockerfiles/config/config.json"
 
 DEFAULT_CONFIG = {
     "partial_args": {
-        "docker_user": "ismailbouajaja",
-        "image_type": ["base", "dev-base", "docker-base", "dev-docker-base"],
+        "docker_user": "ismailbouajaja", # "ismailbouajaja"
+        "target": ["prod", "dev"], # "prod", "dev"
         "base_image": ["node:16"],
-        "docker_version": ["27.3.1"],
-        "poetry_version": ["1.8"],
-        "python_version": ["3.10", "3.11"],
-        "python_type": ["", "slim"],
-        "python_os": [""],
-        "cuda_version": ["12.4.1", "12.5.1", "12.6.2"],
-        "cuda_cudnn": ["", "cudnn"],
-        "cuda_type": ["devel"],
-        "cuda_os": ["ubuntu22.04"]
+        "docker_tag": ["27.3.1-cli"], # "27.3.1-cli"
+        "poetry_version": ["1.8"], # "1.8"
+        "python_version": ["3.10", "3.11"], # "3.10", "3.11", "3.12"
+        "python_type": ["", "slim"], # "", "slim
+        "python_os": [""], # ""
+        "cuda_version": ["12.5.1", "12.6.2"], # "12.4.1", "12.5.1", "12.6.2"
+        "cuda_cudnn": ["", "cudnn"], # "", "cudnn"
+        "cuda_type": ["devel"], # "base", "runtime", "devel"
+        "cuda_os": ["ubuntu22.04"] # "ubuntu20.04", "ubuntu22.04", "ubuntu24.04"
     },
     "target_images": [
-        "cuda-poetry:12.6.2-cudnn-devel-ubuntu22.04--python-3.11--poetry-1.8--dev"
+        "ismailbouajaja/cuda-poetry:nvidia__cuda__12.6.2-cudnn-devel-ubuntu22.04--python__3.12--poetry__1.8--dev",
     ]
 }
+
+"""
+{
+    "partial_args": {
+        "docker_user": "ismailbouajaja",
+        "target": [
+            "prod",
+            "dev"
+        ],
+        "base_image": [],
+        "docker_tag": [
+            "27.3.1-cli"
+        ],
+        "poetry_version": [
+            "1.8"
+        ],
+        "python_version": [
+            "3.10",
+            "3.11"
+        ],
+        "python_type": [
+            "slim"
+        ],
+        "python_os": [
+            ""
+        ],
+        "cuda_version": [
+            "12.5.1",
+            "12.6.2"
+        ],
+        "cuda_cudnn": [
+            "cudnn"
+        ],
+        "cuda_type": [
+            "devel"
+        ],
+        "cuda_os": [
+            "ubuntu22.04"
+        ]
+    },
+    "target_images": []
+}
+"""

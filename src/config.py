@@ -18,3 +18,7 @@ def init_config(
     os.makedirs(os.path.dirname(config_filepath), exist_ok=True)
     with open(config_filepath, "w") as f:
         json.dump(DEFAULT_CONFIG, f, indent=4)
+        
+if __name__ == "__main__":
+    init_config()
+    print(get_config())

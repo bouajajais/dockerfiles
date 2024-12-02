@@ -1,17 +1,17 @@
 # syntax=docker/dockerfile:1
 
+# Set the Docker tag to install
+ARG DOCKER_TAG=27.3.1-cli
+
 # Set the Poetry version to install
 ARG POETRY_VERSION=1.8
 
 # Set the Python version to install
 ARG PYTHON_VERSION=3.10
 
-# Set the Docker tag to install
-ARG DOCKER_TAG=27.3.1-cli
-
 #################### DEV IMAGE ####################
 
-FROM ismailbouajaja/poetry:${POETRY_VERSION}--python-${PYTHON_VERSION}--dev-docker-${DOCKER_TAG} AS dev
+FROM ismailbouajaja/docker-poetry:docker__${DOCKER_TAG}--poetry__${POETRY_VERSION}--python__${PYTHON_VERSION}--dev AS dev
 
 # Change the working directory to /app/src
 WORKDIR /app/src
@@ -34,7 +34,7 @@ USER user
 
 #################### PROD IMAGE ####################
 
-FROM ismailbouajaja/poetry:${POETRY_VERSION}--python-${PYTHON_VERSION}--docker-${DOCKER_TAG} AS prod
+FROM ismailbouajaja/docker-poetry:docker__${DOCKER_TAG}--poetry__${POETRY_VERSION}--python__${PYTHON_VERSION} AS prod
 
 # Change the working directory to /app/src
 WORKDIR /app/src

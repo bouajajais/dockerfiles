@@ -1,8 +1,8 @@
 import os
-from ...utilities import get_image_infos, get_image_from_infos, construct_image_tag, parse_image_tag
+from utilities import get_image_infos, get_image_from_infos, construct_image_tag, parse_image_tag
 
 CURRENT_DIR = os.path.dirname(__file__)
-IMAGE_BASENAME = os.path.basename(CURRENT_DIR)
+IMAGE_BASENAME = os.path.basename(CURRENT_DIR).replace("_", "-")
 
 def get_target_image(config: dict) -> str | None:
     if config["target"] not in ("prod", "dev"):
@@ -30,11 +30,12 @@ def get_config(image: str) -> dict:
     
 def get_target_images(partial_args: dict) -> list[str]:
     target_images = []
+    docker_user = partial_args["docker_user"]
     for target in partial_args["target"]:
         for base_image in partial_args["base_image"]:
             target_image = get_target_image({
+                "docker_user": docker_user,
                 "target": target,
-                "docker_user": partial_args["docker_user"],
                 "base_image": base_image
             })
             if target_image is not None:

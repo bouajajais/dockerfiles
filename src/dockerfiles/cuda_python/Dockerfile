@@ -1,14 +1,14 @@
 # syntax=docker/dockerfile:1
 
-# Set the Python version to install
-ARG PYTHON_VERSION=3.10
-
 # Set the CUDA version to install
 ARG CUDA_TAG=12.6.2-cudnn-devel-ubuntu22.04
 
-#################### BASE IMAGE with non-root user ####################
+# Set the Python version to install
+ARG PYTHON_VERSION=3.10
 
-FROM ismailbouajaja/cuda:${CUDA_TAG} AS base
+#################### PROD IMAGE with non-root user ####################
+
+FROM ismailbouajaja/cuda:nvidia__cuda__${CUDA_TAG} AS prod
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
@@ -56,9 +56,9 @@ RUN apt-get update \
 # Set Python ${PYTHON_VERSION} as the default python and pip
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1
 
-#################### DEV BASE IMAGE with non-root user ################
+#################### DEV IMAGE with non-root user ################
 
-FROM ismailbouajaja/cuda:${CUDA_TAG}--dev AS dev-base
+FROM ismailbouajaja/cuda:nvidia__cuda__${CUDA_TAG}--dev AS dev
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1

@@ -3,10 +3,10 @@
 # Set the CUDA version to install
 ARG CUDA_TAG=12.6.2-cudnn-devel-ubuntu22.04
 
-#################### BASE IMAGE with non-root user ####################
+#################### PROD IMAGE with non-root user ####################
 
-FROM ismailbouajaja/base:cuda-${CUDA_TAG} AS base
+FROM ismailbouajaja/base:cuda__${CUDA_TAG} AS prod
 
-#################### DEV BASE IMAGE with non-root user ################
+#################### DEV IMAGE with non-root user ################
 
-FROM ismailbouajaja/base:dev-cuda-${CUDA_TAG} AS dev-base
+FROM ismailbouajaja/base:cuda__${CUDA_TAG}--dev AS dev

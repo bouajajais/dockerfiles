@@ -1,9 +1,10 @@
 import os
-from ..base.images import get_target_image as get_target_image_base
+from utilities import construct_image_tag, get_image_from_infos, get_image_infos, parse_image_tag
+from dockerfiles.base.images import get_target_image as get_target_image_base
 
 CURRENT_DIR = os.path.dirname(__file__)
-IMAGE_NAME = os.path.basename(CURRENT_DIR)
-    
+IMAGE_BASENAME = os.path.basename(CURRENT_DIR).replace("_", "-")
+
 def get_cuda_tag(config: dict) -> str:
     cuda_version = config["cuda_version"]
     cuda_cudnn = "" if config["cuda_cudnn"] == "" else f"-{config['cuda_cudnn']}"
@@ -39,38 +40,40 @@ def get_cuda_config(cuda_tag: str) -> dict:
     }
 
 def get_target_image(config: dict) -> str | None:
-    if config["target"] not in ("base", "dev-base"):
+    if config["target"] not in ("prod", "dev"):
         return None
     
-    docker_user = config["docker_user"]
-    image_name = IMAGE_NAME
-    target_suffix = "" if config["target"] == "base" else "--dev"
-    return f"{docker_user}/{image_name}:{get_cuda_tag(config)}{target_suffix}"
+    cuda_image = f"nvidia/cuda:{get_cuda_tag(config)}"
+    return get_image_from_infos({
+        "image_user": config["docker_user"],
+        "image_basename": IMAGE_BASENAME,
+        "image_tag": construct_image_tag(
+            [get_image_infos(cuda_image)],
+            config["target"]
+        )
+    })
 
-def get_config(target_image: str) -> dict:
-    docker_user, image = target_image.split("/")[-1]
-    image_tag = image.split(":")[-1]
-    cuda_tag = image_tag.split("--")[0]
+def get_config(image: str) -> dict:
+    image_infos = get_image_infos(image)
+    parsed_image = parse_image_tag(image_infos["image_tag"])
+    cuda_tag = parsed_image["images_infos"][0]["image_tag"]
     
     return {
-        "docker_user": docker_user,
-        "target": f"{'dev-' if target_image.endswith("--dev") else ''}base",
+        "docker_user": image_infos["image_user"],
+        "target": parsed_image["target"],
         **get_cuda_config(cuda_tag)
     }
         
 def get_target_images(partial_args: dict) -> list[str]:
     target_images = []
-    
+    docker_user = partial_args["docker_user"]
     for target in partial_args["target"]:
-        if target not in ("base", "dev-base"):
-            continue
-    
         for cuda_version in partial_args["cuda_version"]:
             for cuda_cudnn in partial_args["cuda_cudnn"]:
                 for cuda_type in partial_args["cuda_type"]:
                     for cuda_os in partial_args["cuda_os"]:
                         target_image = get_target_image({
-                            "docker_user": partial_args["docker_user"],
+                            "docker_user": docker_user,
                             "target": target,
                             "cuda_version": cuda_version,
                             "cuda_cudnn": cuda_cudnn,
@@ -79,7 +82,6 @@ def get_target_images(partial_args: dict) -> list[str]:
                         })
                         if target_image is not None:
                             target_images.append(target_image)
-                            
     return target_images
 
 def get_dependency(target_image: str) -> str:
@@ -90,10 +92,8 @@ def get_dependency(target_image: str) -> str:
         "base_image": f"nvidia/cuda:{get_cuda_tag(config)}"
     })
     
-def build(target_image: str) -> None:
+def get_build_args(target_image: str) -> dict:
     config = get_config(target_image)
     build_args = {}
     build_args["CUDA_TAG"] = get_cuda_tag(config)
-    joint_build_args = " ".join([f'--build-arg {k}="{v}"' for k, v in build_args.items() if v is not None])
-    docker_cmd = f"docker build {joint_build_args} --target {config['target']} -t {target_image} ."
-    os.system(f"cd {CURRENT_DIR} && {docker_cmd}")
+    return build_args

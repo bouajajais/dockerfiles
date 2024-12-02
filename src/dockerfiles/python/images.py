@@ -1,9 +1,9 @@
 import os
-from ...utilities import construct_image_tag, get_image_from_infos, get_image_infos, parse_image_tag
-from ..base.images import get_target_image as get_target_image_base
+from utilities import construct_image_tag, get_image_from_infos, get_image_infos, parse_image_tag
+from dockerfiles.base.images import get_target_image as get_target_image_base
 
 CURRENT_DIR = os.path.dirname(__file__)
-IMAGE_BASENAME = os.path.basename(CURRENT_DIR)
+IMAGE_BASENAME = os.path.basename(CURRENT_DIR).replace("_", "-")
 
 def get_python_tag(config: dict) -> str:
     python_version = config["python_version"]
@@ -56,21 +56,20 @@ def get_config(image: str) -> dict:
         
 def get_target_images(partial_args: dict) -> list[str]:
     target_images = []
-    
+    docker_user = partial_args["docker_user"]
     for target in partial_args["target"]:
         for python_version in partial_args["python_version"]:
             for python_type in partial_args["python_type"]:
                 for python_os in partial_args["python_os"]:
                     target_image = get_target_image({
+                        "docker_user": docker_user,
                         "target": target,
-                        "docker_user": partial_args["docker_user"],
                         "python_version": python_version,
                         "python_type": python_type,
                         "python_os": python_os
                     })
                     if target_image is not None:
                         target_images.append(target_image)
-                            
     return target_images
 
 def get_dependency(target_image: str) -> str:
@@ -80,7 +79,7 @@ def get_dependency(target_image: str) -> str:
         "target": config["target"],
         "base_image": f"python:{get_python_tag(config)}"
     })
-        
+    
 def get_build_args(target_image: str) -> dict:
     config = get_config(target_image)
     build_args = {}
