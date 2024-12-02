@@ -14,7 +14,6 @@
         "cuda_os": []
     },
     "target_images": [
-        "ismailbouajaja/docker-poetry:docker__27.3.1-cli--poetry__1.8--python__3.10",
-        "ismailbouajaja/docker-poetry:docker__27.3.1-cli--poetry__1.8--python__3.10--dev"
+        "ismailbouajaja/base:python__3.10-slim--dev"
     ]
 }

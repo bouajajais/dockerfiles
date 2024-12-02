@@ -59,9 +59,14 @@ def build_and_push(target_image: str) -> None:
 
     build_args = get_build_args(target_image)
     joint_build_args = " ".join([f'--build-arg {k}="{v}"' for k, v in build_args.items() if v is not None])
-    docker_cmd = f"docker build {joint_build_args} --target {target} -t {target_image} ."
-    cmd = f"cd {get_dockerfile_directory(target_image)} && {docker_cmd} && docker push {target_image}"
+    
+    cd_cmd = f"cd {get_dockerfile_directory(target_image)}"
+    docker_build_cmd = f"sudo docker build {joint_build_args} --target {target} -t {target_image} ."
+    docker_push_cmd = f"sudo docker push {target_image}"
+    
+    cmd = f"{cd_cmd} && {docker_build_cmd} && {docker_push_cmd}"
     logger.info(cmd)
+    
     result = os.system(cmd)
     if result == 0:
         logger.info(f"SUCCESS building and pushing {target_image}")

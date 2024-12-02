@@ -13,14 +13,14 @@ ARG PYTHON_VERSION=3.10
 
 FROM ismailbouajaja/docker-poetry:docker__${DOCKER_TAG}--poetry__${POETRY_VERSION}--python__${PYTHON_VERSION}--dev AS dev
 
+# Switch to user
+USER user
+
 # Change the working directory to /app/src
 WORKDIR /app/src
 
 # Copy Poetry files and install dependencies
 COPY --chown=user:user ./src/pyproject.toml ./src/poetry.lock* ./
-
-# Switch to user
-USER user
 
 # Install the dependencies
 RUN poetry install --no-root

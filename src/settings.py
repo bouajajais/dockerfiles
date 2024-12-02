@@ -1,6 +1,7 @@
 import os
 
-ROOT_DIR = "/home/isbou/work/projects/dockerfiles"
+# ROOT_DIR = "/home/isbou/work/projects/dockerfiles"
+ROOT_DIR = "/app"
 CONFIG_FILEPATH = os.path.join(ROOT_DIR, "config/config.json")
 LOGS_DIR = os.path.join(ROOT_DIR, "data/logs")
 
