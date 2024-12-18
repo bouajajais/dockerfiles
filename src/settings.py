@@ -18,7 +18,10 @@ DEFAULT_CONFIG = {
         "cuda_version": ["12.4.1", "12.5.1", "12.6.2"], # "12.4.1", "12.5.1", "12.6.2"
         "cuda_cudnn": ["", "cudnn"], # "", "cudnn"
         "cuda_type": ["devel"], # "base", "runtime", "devel"
-        "cuda_os": ["ubuntu22.04"] # "ubuntu20.04", "ubuntu22.04", "ubuntu24.04"
+        "cuda_os": ["ubuntu22.04"], # "ubuntu20.04", "ubuntu22.04", "ubuntu24.04"
+        "nodejs_version": ["22"], # "22"
+        "nodejs_os": ["bullseye"], # "bullseye"
+        "nodejs_type": ["slim"], # "slim
     },
     "target_images": []
 }

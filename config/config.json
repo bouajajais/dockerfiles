@@ -11,9 +11,13 @@
         "cuda_version": [],
         "cuda_cudnn": [],
         "cuda_type": [],
-        "cuda_os": []
+        "cuda_os": [],
+        "node_version": [],
+        "node_os": [],
+        "node_type": []
     },
     "target_images": [
-        "ismailbouajaja/base:python__3.11-slim--dev"
+        "ismailbouajaja/node:node__22-bullseye-slim--dev",
+        "ismailbouajaja/node:node__22-bullseye-slim"
     ]
 }

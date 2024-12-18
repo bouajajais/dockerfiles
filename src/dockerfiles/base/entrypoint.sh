@@ -5,8 +5,8 @@
 ## permission issues when mounting volumes from the host machine to the container.
 ## This script must be run as the root user.
 
-# USERNAME of the default user created during the image build
-USERNAME=user
+# Get USERNAME from /etc/environment
+. /etc/environment
 
 # Exit if not connected as root
 if [ "$(id -u)" -ne 0 ]; then
@@ -50,4 +50,5 @@ if [ "$(id -u ${USERNAME})" -ne "${USER_UID}" ] || [ "$(id -g ${USERNAME})" -ne 
 fi
 
 # Run the command as the selected user
+export USERNAME=${USERNAME}
 exec gosu ${USERNAME} "$@"
