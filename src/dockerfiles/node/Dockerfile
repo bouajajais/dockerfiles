@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Set the NODE_TAG to install
-ARG NODE_TAG=16-bullseye
+ARG NODE_TAG=22-bullseye-slim
 
 #################### PROD IMAGE with non-root user ####################
 

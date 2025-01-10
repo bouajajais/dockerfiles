@@ -5,7 +5,7 @@
 ## permission issues when mounting volumes from the host machine to the container.
 ## This script must be run as the root user.
 
-# Get USERNAME from /etc/environment
+# Get CONTAINER_USERNAME from /etc/environment
 . /etc/environment
 
 # Exit if not connected as root
@@ -18,21 +18,21 @@ fi
 # and use the default UID and GID if not provided
 if [ -z "${USER_UID}" ] || [ -z "${USER_GID}" ]; then
     echo "WARNING: Docker container was run without USER_UID and USER_GID environment variables."
-    echo "The container will run with the default UID and GID of the ${USERNAME}:$(id -u ${USERNAME}):$(id -g ${USERNAME}) user."
-    USER_UID=$(id -u ${USERNAME})
-    USER_GID=$(id -g ${USERNAME})
+    echo "The container will run with the default UID and GID of the ${CONTAINER_USERNAME}:$(id -u ${CONTAINER_USERNAME}):$(id -g ${CONTAINER_USERNAME}) user."
+    USER_UID=$(id -u ${CONTAINER_USERNAME})
+    USER_GID=$(id -g ${CONTAINER_USERNAME})
 fi
 
 # Warn the user if the WORKDIR environment variable is not provided
 if [ -z "${WORKDIR}" ]; then
     echo "WARNING: Docker container was run without WORKDIR environment variable."
-    echo "Only /home/${USERNAME} ownership will be changed to the selected UID and GID."
+    echo "Only /home/${CONTAINER_USERNAME} ownership will be changed to the selected UID and GID."
 fi
 
 # Check if the selected user does NOT correspond to the default user
-if [ "$(id -u ${USERNAME})" -ne "${USER_UID}" ] || [ "$(id -g ${USERNAME})" -ne "${USER_GID}" ]; then
+if [ "$(id -u ${CONTAINER_USERNAME})" -ne "${USER_UID}" ] || [ "$(id -g ${CONTAINER_USERNAME})" -ne "${USER_GID}" ]; then
     # Change ownership of the home directory
-    chown -R ${USER_UID}:${USER_GID} /home/${USERNAME}
+    chown -R ${USER_UID}:${USER_GID} /home/${CONTAINER_USERNAME}
 
     if [ -n "${WORKDIR}" ]; then
         # Change ownership of application directory
@@ -40,15 +40,15 @@ if [ "$(id -u ${USERNAME})" -ne "${USER_UID}" ] || [ "$(id -g ${USERNAME})" -ne 
     fi
 
     # Change the UID and GID of the user if they are different from the default
-    if [ "$(id -g ${USERNAME})" -ne "${USER_GID}" ]; then
-        groupmod -g ${USER_GID} ${USERNAME}
+    if [ "$(id -g ${CONTAINER_USERNAME})" -ne "${USER_GID}" ]; then
+        groupmod -g ${USER_GID} ${CONTAINER_USERNAME}
     fi
 
-    if [ "$(id -u ${USERNAME})" -ne "${USER_UID}" ]; then
-        usermod -u ${USER_UID} ${USERNAME}
+    if [ "$(id -u ${CONTAINER_USERNAME})" -ne "${USER_UID}" ]; then
+        usermod -u ${USER_UID} ${CONTAINER_USERNAME}
     fi
 fi
 
 # Run the command as the selected user
-export USERNAME=${USERNAME}
-exec gosu ${USERNAME} "$@"
+export CONTAINER_USERNAME=${CONTAINER_USERNAME}
+exec gosu ${CONTAINER_USERNAME} "$@"

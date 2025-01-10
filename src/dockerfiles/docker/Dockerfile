@@ -24,7 +24,11 @@ RUN addgroup -g ${USER_GID} ${USERNAME} \
 RUN apk update \
     && apk add --no-cache su-exec sudo \
     && echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} \
-    && chmod 0440 /etc/sudoers.d/${USERNAME}
+    && chmod 0440 /etc/sudoers.d/${USERNAME} \
+    # Set the CONTAINER_USERNAME environment variable
+    && export CONTAINER_USERNAME=$(id -nu ${USER_UID}) \
+    && echo "export CONTAINER_USERNAME=$CONTAINER_USERNAME" > /etc/profile.d/container_username.sh \
+    && chmod 644 /etc/profile.d/container_username.sh
 
 COPY entrypoint.sh /usr/local/bin/base-entrypoint.sh
 RUN chmod +x /usr/local/bin/base-entrypoint.sh

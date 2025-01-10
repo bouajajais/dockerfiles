@@ -16,16 +16,17 @@ ARG DEFAULT_USERNAME
 ARG USER_UID
 ARG USER_GID
 
-# Create the user and group with the specified UID/GID
+# Create the user and group with the specified UID/GID/DEFAULT_USERNAME
 RUN getent group ${USER_GID} || groupadd --gid ${USER_GID} ${DEFAULT_USERNAME} \
     && getent passwd ${USER_UID} || useradd --uid ${USER_UID} --gid ${USER_GID} -m ${DEFAULT_USERNAME} \
     && apt-get update \
     && apt-get install -y gosu \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && export USERNAME=$(id -nu ${USER_UID}) \
+    # Set the CONTAINER_USERNAME environment variable
+    && export CONTAINER_USERNAME=$(id -nu ${USER_UID}) \
     && echo >> /etc/environment \
-    && echo "USERNAME=$USERNAME" | tee -a /etc/environment
+    && echo "CONTAINER_USERNAME=$CONTAINER_USERNAME" | tee -a /etc/environment
 
 COPY entrypoint.sh /usr/local/bin/base-entrypoint.sh
 RUN chmod +x /usr/local/bin/base-entrypoint.sh
@@ -42,5 +43,5 @@ FROM prod AS dev
 RUN . /etc/environment \
     && apt-get update \
     && apt-get install -y git sudo \
-    && echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} \
-    && chmod 0440 /etc/sudoers.d/${USERNAME}
+    && echo ${CONTAINER_USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${CONTAINER_USERNAME} \
+    && chmod 0440 /etc/sudoers.d/${CONTAINER_USERNAME}

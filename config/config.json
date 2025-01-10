@@ -1,23 +1,56 @@
 {
     "partial_args": {
         "docker_user": "ismailbouajaja",
-        "target": [],
+        "target": [
+            "prod",
+            "dev"
+        ],
         "base_image": [],
-        "docker_tag": [],
-        "poetry_version": [],
-        "python_version": [],
-        "python_type": [],
-        "python_os": [],
-        "cuda_version": [],
-        "cuda_cudnn": [],
-        "cuda_type": [],
-        "cuda_os": [],
-        "node_version": [],
-        "node_os": [],
-        "node_type": []
+        "docker_tag": [
+            "27.3.1-cli"
+        ],
+        "poetry_version": [
+            "1.8"
+        ],
+        "python_version": [
+            "3.10",
+            "3.11",
+            "3.12"
+        ],
+        "python_type": [
+            "",
+            "slim"
+        ],
+        "python_os": [
+            ""
+        ],
+        "cuda_version": [
+            "12.4.1",
+            "12.5.1",
+            "12.6.2"
+        ],
+        "cuda_cudnn": [
+            "",
+            "cudnn"
+        ],
+        "cuda_type": [
+            "devel"
+        ],
+        "cuda_os": [
+            "ubuntu22.04"
+        ],
+        "node_version": [
+            "18",
+            "20",
+            "22"
+        ],
+        "node_os": [
+            "bullseye"
+        ],
+        "node_type": [
+            "",
+            "slim"
+        ]
     },
-    "target_images": [
-        "ismailbouajaja/node:node__22-bullseye-slim--dev",
-        "ismailbouajaja/node:node__22-bullseye-slim"
-    ]
+    "target_images": []
 }
