@@ -3,26 +3,18 @@
         "docker_user": "ismailbouajaja",
         "target": [
             "prod",
-            "dev",
-            "alpine-prod",
-            "alpine-dev"
+            "dev"
         ],
         "base_image": [],
         "docker_tag": [],
         "uv_version": [
             "0.5"
         ],
-        "uv_os": [
-            "",
-            "debian",
-            "bookworm",
-            "alpine"
+        "uv_os": [],
+        "uv_type": [],
+        "poetry_version": [
+            "1.8"
         ],
-        "uv_type": [
-            "",
-            "slim"
-        ],
-        "poetry_version": [],
         "python_version": [
             "3.10",
             "3.11",
@@ -30,10 +22,21 @@
         ],
         "python_type": [],
         "python_os": [],
-        "cuda_version": [],
-        "cuda_cudnn": [],
-        "cuda_type": [],
-        "cuda_os": [],
+        "cuda_version": [
+            "12.4.1",
+            "12.5.1",
+            "12.6.2"
+        ],
+        "cuda_cudnn": [
+            "",
+            "cudnn"
+        ],
+        "cuda_type": [
+            "devel"
+        ],
+        "cuda_os": [
+            "ubuntu22.04"
+        ],
         "node_version": [],
         "node_os": [],
         "node_type": []
