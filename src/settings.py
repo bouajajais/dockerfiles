@@ -25,7 +25,9 @@ DEFAULT_CONFIG = {
         "node_version": ["lts", "22"], # "22"
         "node_os": ["bullseye", "alpine"], # "bullseye"
         "node_type": ["", "slim"], # "slim"
-        "create_react_router": ["22-bullseye-slim"]
+        "create_react_router": ["22-bullseye-slim"], # "22-bullseye-slim"
+        "poetry_init_poetry_version": ["1.8"], # "1.8"
+        "poetry_init_python_tag": ["3.10-slim"], # "3.10-slim"
     },
     "target_images": []
 }
