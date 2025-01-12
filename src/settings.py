@@ -11,6 +11,9 @@ DEFAULT_CONFIG = {
         "target": ["prod", "dev", "alpine-prod", "alpine-dev"], # "prod", "dev", "alpine-prod", "alpine-dev"
         "base_image": [],
         "docker_tag": ["27.3.1-cli"], # "27.3.1-cli"
+        "uv_version": ["0.5"], # "0.5"
+        "uv_os": ["", "debian", "bookworm", "alpine"], # "0.5"
+        "uv_type": ["", "slim"], # "slim"
         "poetry_version": ["1.8"], # "1.8"
         "python_version": ["3.10", "3.11", "3.12"], # "3.10", "3.11", "3.12"
         "python_type": ["", "slim"], # "", "slim

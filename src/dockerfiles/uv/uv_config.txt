@@ -1,0 +1,43 @@
+# possible types of tags
+:1.2.3-python3.10-bookworm-slim
+:1.2-python3.10-bookworm-slim
+
+:1.2.3-python3.10-bookworm
+:1.2.3-python3.10-alpine
+:1.2-python3.10-bookworm
+:1.2-python3.10-alpine
+:1.2.3-debian-slim
+:1.2-debian-slim
+:python3.10-bookworm-slim
+
+:1.2.3-debian
+:1.2.3-alpine
+:1.2.3-alpine3.20
+:1.2-debian
+:1.2-alpine
+:1.2-alpine3.20
+:debian-slim
+:python3.10-bookworm
+:python3.10-alpine
+
+:1.2.3
+:1.2
+:debian
+:alpine
+:alpine3.20
+
+# analysis of tags
+<version> - python<pyversion> - <distro> - <distrotype>
+
+<version> - python<pyversion> - <distro>
+<version> - <distro> - <distrotype>
+python<pyversion> - <distro> - <distrotype>
+
+<version> - <distro>
+<version> - <distro<distroversion>>
+<distro> - <distrotype>
+python<pyversion> - <distro>
+
+<version>
+<distro>
+<distro<distroversion>>

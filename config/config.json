@@ -9,24 +9,34 @@
         ],
         "base_image": [],
         "docker_tag": [],
+        "uv_version": [
+            "0.5"
+        ],
+        "uv_os": [
+            "",
+            "debian",
+            "bookworm",
+            "alpine"
+        ],
+        "uv_type": [
+            "",
+            "slim"
+        ],
         "poetry_version": [],
-        "python_version": [],
+        "python_version": [
+            "3.10",
+            "3.11",
+            "3.12"
+        ],
         "python_type": [],
         "python_os": [],
         "cuda_version": [],
         "cuda_cudnn": [],
         "cuda_type": [],
         "cuda_os": [],
-        "node_version": [
-            "lts"
-        ],
-        "node_os": [
-            "alpine"
-        ],
-        "node_type": [
-            "",
-            "slim"
-        ]
+        "node_version": [],
+        "node_os": [],
+        "node_type": []
     },
     "target_images": []
 }

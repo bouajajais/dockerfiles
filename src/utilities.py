@@ -16,7 +16,9 @@ class ParsedImageTag(TypedDict):
 def get_image_infos(image: str) -> ImageInfos:
     image_name, image_tag = image.split(":")
     if "/" in image_name:
-        image_user, image_basename = image_name.split("/")
+        image_split = image_name.split("/")
+        image_user = "__".join(image_split[:-1])
+        image_basename = image_split[-1]
     else:
         image_user = ""
         image_basename = image_name
@@ -28,15 +30,14 @@ def get_image_infos(image: str) -> ImageInfos:
 
 def get_image_from_infos(image_infos: ImageInfos) -> str:
     image_user = image_infos["image_user"]
-    image_user = "" if len(image_user) == 0 else f"{image_user}/"
+    image_user = "" if len(image_user) == 0 else f"{image_user.replace('__', '/')}/"
     return f"{image_user}{image_infos['image_basename']}:{image_infos['image_tag']}"
 
 def get_image_as_tag_infos(image_as_tag: str) -> ImageInfos:
-    try:
-        image_user, image_basename, image_tag = image_as_tag.split("__")
-    except Exception:
-        image_user = ""
-        image_basename, image_tag = image_as_tag.split("__")
+    image_as_tag_split = image_as_tag.split("__")
+    image_user = "__".join(image_as_tag_split[:-2])
+    image_basename = image_as_tag_split[-2]
+    image_tag = image_as_tag_split[-1]
     return {
         "image_user": image_user,
         "image_basename": image_basename,
