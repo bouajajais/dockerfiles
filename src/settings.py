@@ -19,7 +19,7 @@ DEFAULT_CONFIG = {
         "cuda_cudnn": ["", "cudnn"], # "", "cudnn"
         "cuda_type": ["devel"], # "base", "runtime", "devel"
         "cuda_os": ["ubuntu22.04"], # "ubuntu20.04", "ubuntu22.04", "ubuntu24.04"
-        "node_version": ["22"], # "22"
+        "node_version": ["lts", "22"], # "22"
         "node_os": ["bullseye", "alpine"], # "bullseye"
         "node_type": ["", "slim"], # "slim"
     },
