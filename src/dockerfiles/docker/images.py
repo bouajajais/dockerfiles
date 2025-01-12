@@ -12,10 +12,10 @@ def get_target_image(config: dict) -> str | None:
     return get_image_from_infos({
         "image_user": config["docker_user"],
         "image_basename": IMAGE_BASENAME,
-        "image_tag": construct_image_tag(
-            [get_image_infos(base_image)],
-            config["target"]
-        )
+        "image_tag": construct_image_tag({
+            "images_infos": [get_image_infos(base_image)],
+            "target": config["target"]
+        })
     })
 
 def get_config(image: str) -> dict:

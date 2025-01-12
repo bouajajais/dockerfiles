@@ -22,8 +22,8 @@ GET_BUILD_ARGS = {}
 for dockerfile_folder in os.listdir("dockerfiles"):
     module = import_module(f"dockerfiles.{dockerfile_folder}.images")
     image_basename = dockerfile_folder.replace("_", "-")
-    GET_BUILD_ARGS[image_basename] = module.get_build_args
     GET_TARGET_IMAGES[image_basename] = module.get_target_images
+    GET_BUILD_ARGS[image_basename] = module.get_build_args
 
 def get_target_images_from_partials_args(partial_args: dict) -> list[str]:
     """
@@ -41,6 +41,12 @@ def get_build_args(target_image: str) -> dict:
     image_infos = get_image_infos(target_image)
     return GET_BUILD_ARGS[image_infos["image_basename"]](target_image)
 
+def get_target(target_image: str) -> str:
+    """
+    Get the target for a target_image.
+    """
+    return parse_image_tag(target_image)["target"]
+
 def get_dockerfile_directory(target_image: str) -> str:
     """
     Get the dockerfile directory for a target_image.
@@ -51,7 +57,7 @@ def get_dockerfile_directory(target_image: str) -> str:
 def build_and_push(target_image: str) -> None:
     image_infos = get_image_infos(target_image)
     image_basename = image_infos["image_basename"]
-    target = parse_image_tag(image_infos["image_tag"])["target"]
+    target = get_target(target_image)
     logger = logging.getLogger(image_basename)
     file_handler = logging.FileHandler(os.path.join(settings.LOGS_DIR, f"{image_basename.replace('-', '_')}_logs.txt"))
     file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
@@ -89,3 +95,14 @@ def update_images():
         return
     for target_image in target_images:
         build_and_push(target_image)
+        
+def list_images(keywords: list[str]):
+    docker_username = get_config()["partial_args"]["docker_user"]
+    images = []
+    for image_basename in GET_TARGET_IMAGES.keys():
+        cmd = f"sudo docker images --format '{{{{.Repository}}}}:{{{{.Tag}}}}' {docker_username}/{image_basename}"
+        result = os.popen(cmd).read().strip().split('\n')
+        images.extend(result)
+    for image in images:
+        if all(keyword in image for keyword in keywords):
+            print(image)

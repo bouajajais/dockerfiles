@@ -1,26 +1,19 @@
 #!/bin/sh
 
-# This script is used to change the UID and GID of the user running the container
-# to match the UID and GID of the user on the host machine. This is done to avoid
-# permission issues when mounting volumes from the host machine to the container.
-# This script must be run as the root user.
+## This script is used to change the UID and GID of the user running the container
+## to match the UID and GID of the user on the host machine. This is done to avoid
+## permission issues when mounting volumes from the host machine to the container.
+## This script must be run as the root user.
 
 # Default value for VERBOSE_ENTRYPOINT to 1
 VERBOSE_ENTRYPOINT=${VERBOSE_ENTRYPOINT:-1}
 
-# Get CONTAINER_USERNAME from /etc/profile.d/container_username.sh
-. /etc/profile.d/container_username.sh
+# Get CONTAINER_USERNAME from /etc/environment
+. /etc/environment
 
 # Exit if not connected as root
 if [ "$(id -u)" -ne 0 ]; then
     echo "This script must be run as root. Define the USER_UID and USER_GID environment variables instead."
-    exit 1
-fi
-
-# Exit if /var/run/docker.sock does not exist
-if [ ! -S /var/run/docker.sock ]; then
-    echo "The Docker socket file /var/run/docker.sock was not found."
-    echo "Make sure to mount the Docker socket file to the container using -v /var/run/docker.sock:/var/run/docker.sock"
     exit 1
 fi
 
@@ -74,4 +67,4 @@ export CONTAINER_USERNAME=${CONTAINER_USERNAME}
 if [ "${VERBOSE_ENTRYPOINT}" -ne 0 ]; then
     echo "Running command as ${CONTAINER_USERNAME}"
 fi
-exec su-exec ${CONTAINER_USERNAME} "$@"
+exec gosu ${CONTAINER_USERNAME} "$@"

@@ -1,23 +1,30 @@
 import os
-from utilities import get_image_infos, get_image_from_infos, construct_image_tag, parse_image_tag
+from typing import TypedDict
+from utilities import Target, get_image_infos, get_image_from_infos, construct_image_tag, parse_image_tag
 
 CURRENT_DIR = os.path.dirname(__file__)
 IMAGE_BASENAME = os.path.basename(CURRENT_DIR).replace("_", "-")
 
-def get_target_image(config: dict) -> str | None:
-    if config["target"] not in ("prod", "dev"):
+class Config(TypedDict):
+    docker_user: str
+    target: Target
+    base_image: str
+
+
+def get_target_image(config: Config) -> str | None:
+    if config["target"] not in ("prod", "dev", "alpine-prod", "alpine-dev"):
         return None
     
     return get_image_from_infos({
         "image_user": config["docker_user"],
         "image_basename": IMAGE_BASENAME,
-        "image_tag": construct_image_tag(
-            [get_image_infos(config["base_image"])],
-            config["target"]
-        )
+        "image_tag": construct_image_tag({
+            "images_infos": [get_image_infos(config["base_image"])],
+            "target": config["target"]
+        })
     })
 
-def get_config(image: str) -> dict:
+def get_config(image: str) -> Config:
     image_infos = get_image_infos(image)
     parsed_image = parse_image_tag(image_infos["image_tag"])
     base_image = get_image_from_infos(parsed_image["images_infos"][0])
@@ -44,12 +51,15 @@ def get_target_images(partial_args: dict) -> list[str]:
 
 def get_dependency(target_image: str) -> str | None:
     config = get_config(target_image)
-    if config["target"] == "prod":
-        return config["base_image"]
-    elif config["target"] == "dev":
+    base_image = config["base_image"]
+    target = config["target"]
+    
+    if target.endswith("prod"):
+        return base_image
+    elif target.endswith("dev"):
         return get_target_image({
             **config,
-            "target": "prod"
+            "target": target.replace("dev", "prod")
         })
         
 def get_build_args(target_image: str) -> dict:

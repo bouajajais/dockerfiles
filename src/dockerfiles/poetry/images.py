@@ -6,7 +6,8 @@ CURRENT_DIR = os.path.dirname(__file__)
 IMAGE_BASENAME = os.path.basename(CURRENT_DIR).replace("_", "-")
 
 def get_target_image(config: dict) -> str | None:
-    if config["target"] not in ("prod", "dev"):
+    if ("alpine" not in config["python_os"] and config["target"] not in ("prod", "dev")) \
+        or ("alpine" in config["python_os"] and config["target"] not in ("alpine-prod", "alpine-dev")):
         return None
     
     poetry_image = f"poetry:{config['poetry_version']}"
@@ -14,13 +15,13 @@ def get_target_image(config: dict) -> str | None:
     return get_image_from_infos({
         "image_user": config["docker_user"],
         "image_basename": IMAGE_BASENAME,
-        "image_tag": construct_image_tag(
-            [
+        "image_tag": construct_image_tag({
+            "images_infos": [
                 get_image_infos(poetry_image),
                 get_image_infos(python_image)
             ],
-            config["target"]
-        )
+            "target": config["target"]
+        })
     })
 
 def get_config(image: str) -> dict:

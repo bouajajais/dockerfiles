@@ -30,17 +30,18 @@ def get_python_config(python_tag: str) -> dict:
     }
 
 def get_target_image(config: dict) -> str | None:
-    if config["target"] not in ("prod", "dev"):
+    if ("alpine" not in config["python_os"] and config["target"] not in ("prod", "dev")) \
+        or ("alpine" in config["python_os"] and config["target"] not in ("alpine-prod", "alpine-dev")):
         return None
     
     python_image = f"python:{get_python_tag(config)}"
     return get_image_from_infos({
         "image_user": config["docker_user"],
         "image_basename": IMAGE_BASENAME,
-        "image_tag": construct_image_tag(
-            [get_image_infos(python_image)],
-            config["target"]
-        )
+        "image_tag": construct_image_tag({
+            "images_infos": [get_image_infos(python_image)],
+            "target": config["target"]
+        })
     })
 
 def get_config(image: str) -> dict:

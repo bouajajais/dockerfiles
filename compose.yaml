@@ -1,3 +1,7 @@
+# docker compose build dockerfiles
+# docker compose run --rm dockerfiles list node lts
+# docker compose run --rm dockerfiles config
+# docker compose run --rm dockerfiles
 name: dockerfiles
 services:
   dockerfiles:
@@ -7,7 +11,7 @@ services:
       target: prod
     env_file:
       - .user_guid.env
-    image: dockerfiles
+    image: ismailbouajaja/dockerfiles
     stdin_open: true # Keeps stdin open for the service
     tty: true # Allocates a pseudo-TTY
     volumes:

@@ -17,13 +17,6 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-# Exit if /var/run/docker.sock does not exist
-if [ ! -S /var/run/docker.sock ]; then
-    echo "The Docker socket file /var/run/docker.sock was not found."
-    echo "Make sure to mount the Docker socket file to the container using -v /var/run/docker.sock:/var/run/docker.sock"
-    exit 1
-fi
-
 # Warn the user if the USER_UID and USER_GID environment variables are not provided
 # and use the default UID and GID if not provided
 if [ -z "${USER_UID}" ] || [ -z "${USER_GID}" ]; then

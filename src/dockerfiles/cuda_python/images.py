@@ -14,13 +14,13 @@ def get_target_image(config: dict) -> str | None:
     return get_image_from_infos({
         "image_user": config["docker_user"],
         "image_basename": IMAGE_BASENAME,
-        "image_tag": construct_image_tag(
-            [
+        "image_tag": construct_image_tag({
+            "images_infos": [
                 get_image_infos(cuda_image),
                 get_image_infos(python_image),
             ],
-            config["target"]
-        )
+            "target": config["target"]
+        })
     })
 
 def get_config(image: str) -> dict:
