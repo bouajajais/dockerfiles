@@ -4,6 +4,7 @@ from dockerfiles.base.images import get_target_image as get_target_image_base
 
 CURRENT_DIR = os.path.dirname(__file__)
 IMAGE_BASENAME = os.path.basename(CURRENT_DIR).replace("_", "-")
+HAS_NO_TAG = False
 
 def get_python_tag(config: dict) -> str:
     python_version = config["python_version"]

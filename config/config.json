@@ -2,44 +2,27 @@
     "partial_args": {
         "docker_user": "ismailbouajaja",
         "target": [
-            "prod",
-            "dev"
+            "prod"
         ],
         "base_image": [],
         "docker_tag": [],
-        "uv_version": [
-            "0.5"
-        ],
+        "uv_version": [],
         "uv_os": [],
         "uv_type": [],
-        "poetry_version": [
-            "1.8"
-        ],
-        "python_version": [
-            "3.10",
-            "3.11",
-            "3.12"
-        ],
+        "poetry_version": [],
+        "python_version": [],
         "python_type": [],
         "python_os": [],
-        "cuda_version": [
-            "12.4.1",
-            "12.5.1",
-            "12.6.2"
-        ],
-        "cuda_cudnn": [
-            "",
-            "cudnn"
-        ],
-        "cuda_type": [
-            "devel"
-        ],
-        "cuda_os": [
-            "ubuntu22.04"
-        ],
+        "cuda_version": [],
+        "cuda_cudnn": [],
+        "cuda_type": [],
+        "cuda_os": [],
         "node_version": [],
         "node_os": [],
-        "node_type": []
+        "node_type": [],
+        "create_react_router": [
+            "22-bullseye-slim"
+        ]
     },
     "target_images": []
 }

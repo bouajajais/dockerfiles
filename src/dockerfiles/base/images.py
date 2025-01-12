@@ -4,6 +4,7 @@ from utilities import Target, get_image_infos, get_image_from_infos, construct_i
 
 CURRENT_DIR = os.path.dirname(__file__)
 IMAGE_BASENAME = os.path.basename(CURRENT_DIR).replace("_", "-")
+HAS_NO_TAG = False
 
 class Config(TypedDict):
     docker_user: str

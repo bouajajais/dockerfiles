@@ -19,11 +19,13 @@ logging.basicConfig(
 
 GET_TARGET_IMAGES = {}
 GET_BUILD_ARGS = {}
+HAS_NO_TAG = {}
 for dockerfile_folder in os.listdir("dockerfiles"):
     module = import_module(f"dockerfiles.{dockerfile_folder}.images")
     image_basename = dockerfile_folder.replace("_", "-")
     GET_TARGET_IMAGES[image_basename] = module.get_target_images
     GET_BUILD_ARGS[image_basename] = module.get_build_args
+    HAS_NO_TAG[image_basename] = module.HAS_NO_TAG
 
 def get_target_images_from_partials_args(partial_args: dict) -> list[str]:
     """
@@ -67,6 +69,8 @@ def build_and_push(target_image: str) -> None:
     joint_build_args = " ".join([f'--build-arg {k}="{v}"' for k, v in build_args.items() if v is not None])
     
     cd_cmd = f"cd {get_dockerfile_directory(target_image)}"
+    if HAS_NO_TAG[image_basename]:
+        target_image = target_image.split(":")[0]
     docker_build_cmd = f"sudo docker build {joint_build_args} --target {target} -t {target_image} ."
     docker_push_cmd = f"sudo docker push {target_image}"
     

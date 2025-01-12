@@ -25,6 +25,7 @@ DEFAULT_CONFIG = {
         "node_version": ["lts", "22"], # "22"
         "node_os": ["bullseye", "alpine"], # "bullseye"
         "node_type": ["", "slim"], # "slim"
+        "create_react_router": ["22-bullseye-slim"]
     },
     "target_images": []
 }
