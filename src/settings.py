@@ -28,6 +28,7 @@ DEFAULT_CONFIG = {
         "create_react_router": ["22-bullseye-slim"], # "22-bullseye-slim"
         "poetry_init_poetry_version": ["1.8"], # "1.8"
         "poetry_init_python_tag": ["3.10-slim"], # "3.10-slim"
+        "uv_init": ["0.5-python3.10-bookworm-slim"], # "0.5-python3.10-bookworm-slim"
     },
     "target_images": []
 }
